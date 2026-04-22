@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MLA-C01 Master Memory Hooks</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f2;color:#1a1a1a;padding:16px}
+h1{font-size:18px;font-weight:600;margin-bottom:4px;color:#1a1a1a}
+.sub{font-size:12px;color:#666;margin-bottom:14px}
+.tabs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:14px;position:sticky;top:0;background:#f5f5f2;padding:8px 0;z-index:10;border-bottom:1px solid #e0ddd5}
+.tab{padding:5px 11px;border-radius:6px;border:1px solid #ccc;font-size:11px;font-weight:500;cursor:pointer;background:#fff;color:#555}
+.tab.on{background:#E6F1FB;color:#0C447C;border-color:#B5D4F4}
+.panel{display:none}.panel.on{display:block}
+.sec{font-size:11px;font-weight:600;color:#888;margin:16px 0 7px;text-transform:uppercase;letter-spacing:.05em}
+.g2{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:5px;margin-bottom:4px}
+.h{padding:7px 10px 7px 13px;border-radius:7px;margin-bottom:5px;font-size:12.5px;line-height:1.5;border-left:3px solid #ccc;background:#f0f0ec}
+.h b{font-weight:600;display:block;margin-bottom:2px;font-size:12px}
+.h span{color:#444}
+.trap{font-size:11px;color:#712B13;margin-top:3px;font-style:italic}
+.hb{border-color:#378ADD;background:#E6F1FB}.hb b{color:#0C447C}
+.hg{border-color:#639922;background:#EAF3DE}.hg b{color:#2d5c0a}
+.ha{border-color:#BA7517;background:#FAEEDA}.ha b{color:#633806}
+.hp{border-color:#534AB7;background:#EEEDFE}.hp b{color:#3C3489}
+.ht{border-color:#0F6E56;background:#E1F5EE}.ht b{color:#085041}
+.hr{border-color:#993C1D;background:#FAECE7}.hr b{color:#712B13}
+.hx{border-color:#aaa;background:#f0f0ec}.hx b{color:#333}
+.dt{border-radius:7px;overflow:hidden;margin-bottom:6px;border:1px solid #ddd}
+.dr{display:flex;font-size:12px;padding:7px 11px;gap:8px;border-bottom:1px solid #eee;background:#fff}
+.dr:last-child{border:none}
+.dr:nth-child(even){background:#f8f8f6}
+.di{color:#666;min-width:200px;flex-shrink:0;font-size:11.5px}
+.dv{font-weight:600;color:#1a1a1a;font-size:11.5px}
+.score-bar{background:#fff;border:1px solid #ddd;border-radius:8px;padding:10px 14px;margin-bottom:14px;font-size:12px;display:flex;gap:20px;flex-wrap:wrap}
+.score-item b{color:#0C447C}
+</style>
+</head>
+<body>
+<h1>MLA-C01 Master Memory Hooks</h1>
+<div class="sub">Compiled from all 3 practice sets · Randomized (82.67%) · Timed Set 1 (84.21%) · Timed Diagnostic (84.21%)</div>
+
+<div class="score-bar">
+  <span><b>65 questions</b> (50 scored + 15 unscored)</span>
+  <span><b>170 min</b> · Pass: <b>720/1000</b></span>
+  <span>D1 Data Prep <b>28%</b> · D2 Model Dev <b>26%</b> · D3 Deploy <b>22%</b> · D4 Monitor <b>24%</b></span>
+</div>
+
+<div class="tabs">
+  <span class="tab on" onclick="sw('q',this)">All hooks</span>
+  <span class="tab" onclick="sw('sm',this)">SageMaker</span>
+  <span class="tab" onclick="sw('al',this)">Algorithms</span>
+  <span class="tab" onclick="sw('me',this)">Metrics</span>
+  <span class="tab" onclick="sw('da',this)">Data &amp; storage</span>
+  <span class="tab" onclick="sw('de',this)">Deploy &amp; infra</span>
+  <span class="tab" onclick="sw('be',this)">Bedrock &amp; GenAI</span>
+  <span class="tab" onclick="sw('se',this)">Security</span>
+  <span class="tab" onclick="sw('co',this)">Cost &amp; instances</span>
+  <span class="tab" onclick="sw('ci',this)">CI/CD &amp; pipelines</span>
+  <span class="tab" onclick="sw('tr',this)">Exam traps</span>
+</div>
+
+<!-- ALL HOOKS -->
+<div id="pq" class="panel on">
+<div class="sec">Master one-liners — every concept from all three practice sets</div>
+<div class="g2">
+<div class="h hb"><b>ML fundamentals</b><span>Algorithms learn patterns from data → model predicts. NOT hard-coded rules. NOT raw unprocessed data.</span></div>
+<div class="h hg"><b>Simple vs complex model</b><span>Regulated/explained decisions (loan approval) = simple model (explainability). Max accuracy, no regulation = complex model.</span></div>
+<div class="h ha"><b>Clarify</b><span>WHY biased? SHAP explainability + pre/post-training bias. Bias + explain = Clarify. NOT Monitor.</span></div>
+<div class="h hp"><b>Model Monitor</b><span>WHAT in prod? 4 types: data quality, model quality, bias drift, feature attribution drift (SHAP rank shift).</span></div>
+<div class="h ht"><b>Data Wrangler</b><span>PREPARE data visually. 300+ transforms. Cat→Num, impute, Robust Scaler, gamma image contrast. Low-code. Redshift/S3/RDS.</span></div>
+<div class="h hr"><b>Ground Truth</b><span>LABEL data. Human + auto active learning. Ends at labels — no analysis, no monitoring, no bias detection.</span></div>
+<div class="h hb"><b>Feature Store</b><span>STORE features. Online=DynamoDB (real-time). Offline=S3 (training). NOT for transformation or analysis.</span></div>
+<div class="h hg"><b>Debugger</b><span>GRADIENT anomalies DURING training. Vanishing/exploding gradients. Fires at training time only.</span></div>
+<div class="h ha"><b>TensorBoard</b><span>SEE inside CNN layers. Intermediate tensor visualization. CNN misclassifying similar patterns → TensorBoard.</span></div>
+<div class="h hp"><b>Neo</b><span>COMPILE for edge devices. Dashcams, Jetson, Raspberry Pi. Low compute + low-latency. NOT Pipelines, NOT Rekognition.</span></div>
+<div class="h ht"><b>Warm Pools</b><span>PRE-WARM instances between consecutive training jobs. Fast iteration, no cold provisioning between experiments.</span></div>
+<div class="h hr"><b>Inference Recommender</b><span>FIND best instance BEFORE deployment. Benchmarks model across instance types. SageMaker endpoints ONLY.</span></div>
+<div class="h hb"><b>Autopilot + JumpStart (LCNC)</b><span>Autopilot = full AutoML automation. JumpStart = pre-built models + templates. Minimal code. LCNC approach.</span></div>
+<div class="h hg"><b>Model Registry</b><span>ORGANIZE model versions in groups. Cross-account via resource policies. Collections categorize without modifying artifacts.</span></div>
+<div class="h ha"><b>Async Inference</b><span>&gt;6MB payload OR &gt;60s inference OR scales-to-zero. Event-driven. Results → S3.</span></div>
+<div class="h hp"><b>Multi-model endpoint</b><span>Many models, same framework, minimal traffic. Dynamic load/unload. One endpoint = cost savings.</span></div>
+<div class="h ht"><b>DataBrew folder rule</b><span>ALL files must share SAME format + SAME extension per folder. Mixed types = separate folders first, then process.</span></div>
+<div class="h hr"><b>Macie vs Comprehend (PII)</b><span>Macie = PII in S3 stored objects (bucket scan). Comprehend = PII in live text (emails, chat, transcripts).</span></div>
+<div class="h hb"><b>CloudTrail vs Logs Insights</b><span>CloudTrail = WHO did WHAT WHEN (API audit). Logs Insights = query + ML pattern detection IN logs.</span></div>
+<div class="h hg"><b>KMS vs TLS</b><span>KMS = encryption AT REST (S3, EBS, artifacts). TLS/inter-container = encryption IN TRANSIT between nodes.</span></div>
+<div class="h ha"><b>Cross-account S3 access</b><span>Create IAM role in OWNER's account → grant sts:AssumeRole to other account. Bucket policy in requester = impossible.</span></div>
+<div class="h hp"><b>SSE-KMS AccessDenied fix</b><span>After SSE-S3 → SSE-KMS: add kms:Encrypt + kms:Decrypt to EXECUTION ROLE. NOT the IAM user who launched the job.</span></div>
+<div class="h ht"><b>VPC endpoints</b><span>Gateway = same-region S3/DynamoDB only, FREE. Interface (PrivateLink) = cross-region support, costs money.</span></div>
+<div class="h hr"><b>Savings Plans vs Spot</b><span>Strict schedule + no interruption = Savings Plans (up to 64% off). Spot = interruptible, breaks schedules.</span></div>
+<div class="h hb"><b>Reserved Instances</b><span>NOT supported for SageMaker training jobs. Use Savings Plans. This is the exam's #1 cost distractor.</span></div>
+<div class="h hg"><b>Compute Optimizer</b><span>Rightsizing EC2 + Lambda + ECS/Fargate + EBS. Multi-service. Inference Recommender = SageMaker endpoints ONLY.</span></div>
+<div class="h ha"><b>Cost tags (3-step)</b><span>CREATE → ATTACH → ACTIVATE in Billing console. Skip activate = invisible in Cost Explorer.</span></div>
+<div class="h hp"><b>Bedrock temperature</b><span>Lower Temp + Top K + Top P = consistent/deterministic. Higher all three = random/creative. Mixed directions cancel out.</span></div>
+<div class="h ht"><b>Provisioned Throughput (Bedrock)</b><span>REQUIRED to invoke any fine-tuned Bedrock model. Cannot call custom model without buying PT first.</span></div>
+<div class="h hr"><b>Bedrock batch inference</b><span>Large LLM batch from S3 → CreateModelInvocationJob API. Managed, minimal setup, no Lambda needed.</span></div>
+<div class="h hb"><b>RAG architecture</b><span>Managed = Bedrock Knowledge Bases. S3 → Titan Embeddings G1 → vector store → retrieve + generate.</span></div>
+<div class="h hg"><b>Titan Image Generator</b><span>Text → image. Embeddings G1 = text → vector (RAG). Text Lite = NLP tasks. Multimodal = text+image search vectors.</span></div>
+<div class="h ha"><b>SageMaker Pipelines</b><span>ML-native DAG. JSON schema (IaC friendly). EventBridge triggers on S3 events. Default for ML workflow automation.</span></div>
+<div class="h hp"><b>CI/CD services</b><span>CodePipeline = orchestrate. CodeBuild = compile + test. CodeDeploy = ship (minimize downtime). CodeArtifact = store packages.</span></div>
+<div class="h ht"><b>Fast File Mode</b><span>Large NLP datasets: early training start + random file access + no code changes. Best of File + Pipe mode.</span></div>
+<div class="h hr"><b>Pipe Mode</b><span>Sequential stream ONLY. NO random access within files. Breaks NLP tokenizers. Record-by-record algorithms only.</span></div>
+<div class="h hb"><b>Robust Scaler</b><span>Dataset has outliers → Robust Scaler (median + IQR). Standard Scaler and Z-score are outlier-sensitive.</span></div>
+<div class="h hg"><b>SMOTE</b><span>Imbalanced dataset: oversample MINORITY class with synthetic data. NOT the majority class.</span></div>
+<div class="h ha"><b>Dropout (overfitting fix)</b><span>Train acc up, val acc plateaus = overfitting. Fix: Dropout (random neurons off). NOT adding more layers (makes worse).</span></div>
+<div class="h hp"><b>Hyperband HPO</b><span>FASTEST hyperparameter optimization. Beats Bayesian, Random, Grid. Use when question says minimum computation time.</span></div>
+<div class="h ht"><b>Retraining frequency</b><span>Models degrade via data drift. Retrain with BOTH old + new data. Old only = outdated. New only = overfit to trends.</span></div>
+<div class="h hr"><b>Model Monitor baseline after model update</b><span>Model updated → generate NEW baseline from updated dataset → reconfigure Monitor. Old baseline is now stale.</span></div>
+<div class="h hb"><b>Parquet</b><span>ML/analytics default. Columnar, compressed. Canvas, Glue, Athena. ORC = Hive. Avro = streaming/schema evolution.</span></div>
+<div class="h hg"><b>PDP vs DPL</b><span>PDP = how prediction changes as ONE feature increases. DPL = label proportion imbalance across demographic groups.</span></div>
+<div class="h ha"><b>Average wQL</b><span>Probabilistic time-series forecasting metric. Predicts distribution/quantiles not just a point. Pairs with RMSE.</span></div>
+<div class="h hp"><b>False Positive Rate (fraud detection)</b><span>Minimize false fraud flags = FPR + F1 Score. NOT True Positive Rate (that's recall = minimize false negatives).</span></div>
+<div class="h ht"><b>Parquet for SageMaker Canvas</b><span>Canvas uses S3 data. Parquet = best format. Columnar allows reading only needed columns, speeds up training.</span></div>
+<div class="h hr"><b>Bedrock benefits (multi-select question)</b><span>The two correct answers: wide range of FMs from multiple providers + private customization of FMs.</span></div>
+<div class="h hb"><b>max_depth + XGBoost overfitting</b><span>Minimize max_depth = simpler trees = better generalization. ADDING max_depth = more overfitting. Never increase to generalize.</span></div>
+<div class="h hg"><b>Comprehend ImportModel API</b><span>Copy custom Comprehend model between AWS accounts = ImportModel API + resource-based IAM policy in source account.</span></div>
+<div class="h ha"><b>k-NN sample_size with workers</b><span>sample_size=200, 2 workers → each worker gets 100 points (200 ÷ 2). NOT 200 each, NOT total dataset size.</span></div>
+</div>
+</div>
+
+<!-- SAGEMAKER -->
+<div id="psm" class="panel">
+<div class="sec">Every SageMaker service — hook + what it is NOT</div>
+<div class="h hb"><b>Clarify</b><span>WHY biased? SHAP explainability + pre/post-training bias detection across demographic groups. Also monitors bias drift in production.</span><div class="trap">NOT Monitor (production drift) · NOT Wrangler (data prep) · NOT Ground Truth (labeling)</div></div>
+<div class="h hp"><b>Model Monitor — 4 types</b><span>Data quality (input drift) | Model quality (accuracy drop) | Bias drift (group fairness) | Feature attribution drift (SHAP rank shift).</span></div>
+<div class="h ht"><b>ModelExplainabilityMonitor</b><span>SHAP importance rank shifted. "Age was #1 feature, now driving history is #1." Set SHAP baseline → detect drift → CloudWatch alert.</span><div class="trap">NOT ModelBiasMonitor (group fairness) · NOT ModelDataQualityMonitor (input distribution changes)</div></div>
+<div class="h hg"><b>Data Wrangler</b><span>PREPARE data visually. 300+ transforms. Cat→Num encoding, impute missing values, Robust Scaler, gamma contrast for images. Connects to Redshift, S3, RDS. Exports to Feature Store.</span><div class="trap">NOT for monitoring · NOT for bias analysis · NOT for model evaluation</div></div>
+<div class="h ha"><b>Ground Truth</b><span>LABEL data. Human annotators + automated active learning to reduce annotation cost. Produces labeled training datasets.</span><div class="trap">NOT bias detection · NOT model monitoring · NOT analysis of any kind</div></div>
+<div class="h hr"><b>Feature Store</b><span>STORE features. Online store = DynamoDB (real-time serving). Offline store = S3 (training). Version and share features across teams.</span><div class="trap">NOT for transformation · NOT for bias detection · NOT for analysis</div></div>
+<div class="h hb"><b>Debugger</b><span>GRADIENT anomalies DURING training. Vanishing/exploding gradients, overfitting/underfitting hooks. Fires at training time only.</span><div class="trap">NOT layer visualization (use TensorBoard) · NOT production monitoring</div></div>
+<div class="h hp"><b>SageMaker + TensorBoard</b><span>SEE inside CNN layers. Intermediate tensor visualization. CNN misclassifying similar visual patterns → TensorBoard to analyze each layer.</span><div class="trap">NOT Debugger (gradients not layer viz) · NOT CodeGuru (app code profiling not DL)</div></div>
+<div class="h ht"><b>Neo</b><span>COMPILE for edge devices. Dashcams, Jetson, Raspberry Pi. Low compute + low-latency real-time inference on hardware.</span><div class="trap">NOT Pipelines (workflow automation) · NOT Rekognition (managed CV service)</div></div>
+<div class="h hg"><b>Warm Pools</b><span>PRE-WARM instances between consecutive training jobs. No cold provisioning. Fast iteration across model versions.</span><div class="trap">NOT for inference · NOT SMDDP (that's distributed training across GPUs)</div></div>
+<div class="h ha"><b>Inference Recommender</b><span>FIND best instance BEFORE deployment. Runs load tests, recommends cheapest instance meeting your latency + throughput targets.</span><div class="trap">NOT Compute Optimizer (covers EC2/Lambda/Fargate) · NOT Auto Scaling (scales after deployment)</div></div>
+<div class="h hr"><b>AMT — Automatic Model Tuning</b><span>Hyperparameter optimization. Hyperband = fastest. Bayesian = moderate. Random = basic. Grid = exhaustive (slowest).</span></div>
+<div class="h hb"><b>Autopilot</b><span>Full AutoML: picks algorithm, preprocesses, tunes, trains end-to-end. LCNC approach for quick model building.</span></div>
+<div class="h hp"><b>JumpStart</b><span>Pre-built foundation models + solution templates. Fine-tune without building from scratch. Pairs with Autopilot for LCNC.</span></div>
+<div class="h ht"><b>Model Registry</b><span>Centralize model versions in groups. Track metadata, approval status. Cross-account via resource policies. Collections categorize without modifying artifacts.</span></div>
+<div class="h hg"><b>SageMaker Pipelines</b><span>ML-native DAG. JSON schema (IaC friendly). EventBridge trigger on S3 events. Full ML lifecycle. DEFAULT answer for ML automation.</span><div class="trap">NOT Step Functions (general, not ML-native) · NOT Airflow (general, not serverless)</div></div>
+<div class="h ha"><b>Processing Jobs</b><span>Run preprocessing scripts on managed infra. Schedule monthly. Well-integrated with Feature Store and SageMaker ecosystem.</span></div>
+<div class="h hr"><b>Batch Transform</b><span>Offline bulk inference. No persistent endpoint needed. Results → S3. Large datasets processed at once.</span><div class="trap">NOT real-time · NOT for 500MB event-driven files (use Async Inference)</div></div>
+<div class="h hb"><b>Async Inference</b><span>&gt;6MB payload OR &gt;60s inference time OR scales to zero when idle. Event-driven. Results stored in S3.</span></div>
+<div class="h hp"><b>Multi-model endpoint</b><span>Many models, SAME ML framework, minimal per-model traffic. Dynamic load/unload. One endpoint = cost savings.</span><div class="trap">NOT for high-traffic models (cold start penalty applies)</div></div>
+<div class="h ht"><b>CloudFormation — AWS::SageMaker::Model</b><span>Creates the model artifact + container definition. Required BEFORE creating AWS::SageMaker::Endpoint. Endpoint resource does not create the model.</span></div>
+<div class="h hg"><b>Canvas</b><span>No-code ML for business analysts. Supports Parquet from S3. Ready-to-use models (PII redaction, classification, forecasting).</span></div>
+<div class="h ha"><b>Managed Spot Training</b><span>Up to 90% cheaper than On-Demand. Interruptible with 2-min warning. Use checkpointing. NOT for strict schedules.</span></div>
+</div>
+
+<!-- ALGORITHMS -->
+<div id="pal" class="panel">
+<div class="sec">Algorithm selection decision tree</div>
+<div class="dt">
+<div class="dr"><span class="di">Tabular classification or regression</span><span class="dv">XGBoost</span></div>
+<div class="dr"><span class="di">Fast linear baseline (regression or classification)</span><span class="dv">Linear Learner</span></div>
+<div class="dr"><span class="di">Cluster/segment data without labels</span><span class="dv">K-Means (unsupervised clustering)</span></div>
+<div class="dr"><span class="di">Anomaly in any numerical or time-series data</span><span class="dv">Random Cut Forest (RCF)</span></div>
+<div class="dr"><span class="di">Anomaly in IPv4 address patterns specifically</span><span class="dv">IP Insights (IPv4 only)</span></div>
+<div class="dr"><span class="di">Discover UNKNOWN topics in text (no labels)</span><span class="dv">LDA — Latent Dirichlet Allocation</span></div>
+<div class="dr"><span class="di">Classify into KNOWN text categories (supervised)</span><span class="dv">BlazingText — Text Classification mode</span></div>
+<div class="dr"><span class="di">Word embeddings / Word2Vec</span><span class="dv">BlazingText — Word2Vec mode</span></div>
+<div class="dr"><span class="di">Text → shorter text (summarize / caption / translate)</span><span class="dv">Seq2Seq algorithm</span></div>
+<div class="dr"><span class="di">Time series forecasting (RNN-based)</span><span class="dv">DeepAR</span></div>
+<div class="dr"><span class="di">Recommendations on sparse data (click-through)</span><span class="dv">Factorization Machines</span></div>
+<div class="dr"><span class="di">Remove weak features / dimensionality reduction</span><span class="dv">PCA — Principal Component Analysis</span></div>
+<div class="dr"><span class="di">COUNT or LOCATE multiple objects, bounding boxes</span><span class="dv">Object Detection — MXNet (SSD)</span></div>
+<div class="dr"><span class="di">One label for entire image</span><span class="dv">Image Classification (CNN)</span></div>
+<div class="dr"><span class="di">Label every pixel in image</span><span class="dv">Semantic Segmentation</span></div>
+<div class="dr"><span class="di">CNN training with custom framework</span><span class="dv">TensorFlow or PyTorch script mode</span></div>
+<div class="dr"><span class="di">k-NN: sample_size=200, 2 workers</span><span class="dv">100 points per worker (200 ÷ 2)</span></div>
+</div>
+<div class="sec">Key confusions — most commonly tested</div>
+<div class="h hr"><b>RCF vs IP Insights</b><span>RCF = any anomaly in any data. IP Insights = IPv4 address behavior anomalies SPECIFICALLY.</span></div>
+<div class="h hr"><b>LDA vs BlazingText</b><span>LDA = discover UNKNOWN topics (unsupervised, no labels). BlazingText = classify into KNOWN categories (supervised, needs labels).</span></div>
+<div class="h hr"><b>Object Detection vs Image Classification</b><span>COUNT / LOCATE / MULTIPLE objects = Object Detection (bounding boxes). ONE label for entire image = Image Classification.</span></div>
+<div class="h hr"><b>Seq2Seq use cases</b><span>Machine translation, text summarization, speech-to-text, caption generation. Input sequence → output shorter/different sequence.</span></div>
+<div class="h hr"><b>XGBoost regression HPO metric</b><span>Use validation:rmse. NOT validation:accuracy (classification metric), NOT validation:ndcg (ranking metric).</span></div>
+<div class="h hr"><b>Object2Vec</b><span>Learns vector embeddings of discrete objects (user IDs, item IDs). NOT for images. NOT for text classification.</span></div>
+</div>
+
+<!-- METRICS -->
+<div id="pme" class="panel">
+<div class="sec">Metric selection decision tree</div>
+<div class="dt">
+<div class="dr"><span class="di">Continuous output (house price, car value)</span><span class="dv">MAE or RMSE — regression only</span></div>
+<div class="dr"><span class="di">Time-series forecasting (temperatures, humidity)</span><span class="dv">RMSE + Average wQL</span></div>
+<div class="dr"><span class="di">Minimize false negatives (missed cancer, missed fraud)</span><span class="dv">Maximize Recall = TP ÷ (TP + FN)</span></div>
+<div class="dr"><span class="di">Minimize false positives (false spam, over-treatment)</span><span class="dv">Maximize Precision = TP ÷ (TP + FP)</span></div>
+<div class="dr"><span class="di">Balance precision and recall</span><span class="dv">F1 Score — harmonic mean</span></div>
+<div class="dr"><span class="di">Overall correct predictions (spam + not-spam both count)</span><span class="dv">Accuracy</span></div>
+<div class="dr"><span class="di">Model ranking ability across all thresholds</span><span class="dv">AUC-ROC</span></div>
+<div class="dr"><span class="di">Binary classification (Passed/Failed, spam/not-spam)</span><span class="dv">Precision + Recall + Accuracy + F1 — ALL FOUR valid</span></div>
+<div class="dr"><span class="di">Fraud: detect fraud + minimize false flags</span><span class="dv">False Positive Rate + F1 Score</span></div>
+<div class="dr"><span class="di">Reduce FP in Linear Learner classifier</span><span class="dv">Increase target_precision hyperparameter</span></div>
+<div class="dr"><span class="di">Text summarization quality</span><span class="dv">ROUGE score — summarization ONLY</span></div>
+<div class="dr"><span class="di">Classification probability output quality</span><span class="dv">Log Loss</span></div>
+</div>
+<div class="sec">Never-mix rules — hardcoded</div>
+<div class="h hr"><b>RMSE / MAE = regression ONLY</b><span>Never for Passed/Failed, spam/not-spam, fraud classification problems.</span></div>
+<div class="h hr"><b>Accuracy / Precision / Recall / F1 = classification ONLY</b><span>Never for continuous outputs like house prices or car values.</span></div>
+<div class="h hr"><b>ROUGE = text summarization ONLY</b><span>Never for classification, regression, or image tasks.</span></div>
+<div class="h hr"><b>Cut-off / threshold = NOT a metric</b><span>Decision boundary only. Never select as a performance evaluation metric answer.</span></div>
+<div class="h hr"><b>AUC = binary classification ranking only</b><span>Not for regression, not for time-series forecasting.</span></div>
+<div class="h hb"><b>Average wQL</b><span>Probabilistic forecasting — predicts a distribution/quantiles, not just a point value. Time-series like weather, demand. Always pairs with RMSE.</span></div>
+<div class="sec">Explainability techniques</div>
+<div class="h hb"><b>PDP (Partial Dependence Plot)</b><span>How does predicted probability change as ONE feature increases? (e.g. churn probability vs customer age). Shows feature trend.</span></div>
+<div class="h hb"><b>DPL (Difference in Proportions of Labels)</b><span>Label proportion imbalance across demographic groups. Group A churn rate 40% vs Group B 10% → DPL flags this disparity.</span></div>
+<div class="h hb"><b>SHAP / Shapley values</b><span>Feature importance for a trained model's predictions. Requires a trained model. Used by Clarify and ModelExplainabilityMonitor.</span></div>
+<div class="h hb"><b>TVD / KL Divergence</b><span>Distribution distance metrics. NOT explainability techniques for demographic fairness on MLA-C01.</span></div>
+</div>
+
+<!-- DATA & STORAGE -->
+<div id="pda" class="panel">
+<div class="sec">Data format selection</div>
+<div class="dt">
+<div class="dr"><span class="di">ML analytics, Canvas, Glue, Athena</span><span class="dv">Parquet — columnar, compressed, ML default</span></div>
+<div class="dr"><span class="di">Streaming data, schema evolution</span><span class="dv">Avro — row-based, flexible schema</span></div>
+<div class="dr"><span class="di">Hive/Spark-optimized analytics</span><span class="dv">ORC — columnar, Hive-native</span></div>
+<div class="dr"><span class="di">SageMaker built-in algorithms with Pipe mode</span><span class="dv">RecordIO-Protobuf</span></div>
+<div class="dr"><span class="di">Bedrock fine-tuning training data</span><span class="dv">JSONL — JSON Lines format</span></div>
+<div class="dr"><span class="di">Simple small datasets, human-readable</span><span class="dv">CSV — no compression, slow at scale</span></div>
+</div>
+<div class="sec">Storage service selection</div>
+<div class="dt">
+<div class="dr"><span class="di">Data lake, default ML object store, massive scale</span><span class="dv">S3 — 11 nines durability, unlimited scale</span></div>
+<div class="dr"><span class="di">HPC, deep learning, highest I/O throughput</span><span class="dv">FSx for Lustre — sub-ms, GB/s throughput</span></div>
+<div class="dr"><span class="di">Shared NFS from multiple EC2 simultaneously</span><span class="dv">EFS — concurrent mounts, NFS protocol</span></div>
+<div class="dr"><span class="di">Single EC2 low-latency block storage</span><span class="dv">EBS — not shareable across instances</span></div>
+<div class="dr"><span class="di">On-premises → EFS/S3 migration</span><span class="dv">DataSync — automated data transfer agent</span></div>
+<div class="dr"><span class="di">Faster S3 uploads from global distributed locations</span><span class="dv">S3 Transfer Acceleration — CloudFront edge</span></div>
+<div class="dr"><span class="di">On-premises hybrid storage bridge</span><span class="dv">Storage Gateway — NOT for cloud-native data lakes</span></div>
+</div>
+<div class="sec">SageMaker training data access modes</div>
+<div class="h hr"><b>File Mode</b><span>Download ALL before training starts. Slow startup. Full disk needed. Best for small datasets only.</span></div>
+<div class="h ha"><b>Pipe Mode</b><span>Sequential stream ONLY. NO random access within files. Breaks NLP tokenizers. Use only for record-by-record algorithms.</span></div>
+<div class="h hg"><b>Fast File Mode</b><span>Starts training early + random file access + no code changes required. DEFAULT choice for large NLP datasets.</span></div>
+<div class="sec">Data transformation techniques</div>
+<div class="h hb"><b>Robust Scaler</b><span>Dataset has outliers → Robust Scaler uses median + IQR. Standard Scaler and Z-score are sensitive to outliers.</span></div>
+<div class="h hb"><b>SMOTE</b><span>Imbalanced dataset: oversample the MINORITY class with synthetic interpolated data. NOT the majority class.</span></div>
+<div class="h hb"><b>Gamma contrast (Data Wrangler image transforms)</b><span>Fix inconsistent lighting in images before training. NOT rotate, NOT blur, NOT resize for lighting issues.</span></div>
+<div class="h hb"><b>DataBrew folder rule</b><span>All files in a folder must share SAME format AND SAME extension. Mixed types in one folder = DataBrew fails. Separate folders first.</span></div>
+<div class="h hb"><b>Glue FindMatches</b><span>ML-powered deduplication. Detects and merges duplicate records based on similar attributes. No custom code needed.</span></div>
+<div class="h hb"><b>EMR + Spark for format conversion</b><span>Convert large dataset to RecordIO-Protobuf for SageMaker Pipe mode. Team already using EMR = use it.</span></div>
+</div>
+
+<!-- DEPLOY & INFRA -->
+<div id="pde" class="panel">
+<div class="sec">Endpoint type selection</div>
+<div class="dt">
+<div class="dr"><span class="di">Live user-facing, &lt;60s, &lt;6MB payload</span><span class="dv">Real-time endpoint</span></div>
+<div class="dr"><span class="di">&gt;6MB OR &gt;60s OR scales-to-zero</span><span class="dv">Asynchronous Inference</span></div>
+<div class="dr"><span class="di">Spiky or low traffic, pay per request</span><span class="dv">Serverless Inference</span></div>
+<div class="dr"><span class="di">Offline bulk scoring, no persistent endpoint</span><span class="dv">Batch Transform</span></div>
+<div class="dr"><span class="di">Many models, same framework, minimal traffic</span><span class="dv">Multi-model endpoint</span></div>
+</div>
+<div class="sec">Container strategy</div>
+<div class="dt">
+<div class="dr"><span class="di">All libs in default container</span><span class="dv">Use default as-is</span></div>
+<div class="dr"><span class="di">Extra packages needed, low overhead</span><span class="dv">Extend pre-built container → push to ECR</span></div>
+<div class="dr"><span class="di">Different language like R or custom framework</span><span class="dv">Custom Dockerfile → ECR → SageMaker endpoint</span></div>
+<div class="dr"><span class="di">pip install in training script at runtime</span><span class="dv">Fragile — avoid, breaks in VPC isolation</span></div>
+</div>
+<div class="sec">EC2 instance families for ML</div>
+<div class="dt">
+<div class="dr"><span class="di">Deep learning inference, real-time, low-latency</span><span class="dv">Accelerated computing — g4dn, g5, Inf1/Inf2</span></div>
+<div class="dr"><span class="di">Deep learning training (heavy GPU workloads)</span><span class="dv">p3 (V100), p4d (A100), p5 (H100)</span></div>
+<div class="dr"><span class="di">AWS custom training chip</span><span class="dv">Trn1 — Trainium</span></div>
+<div class="dr"><span class="di">AWS custom inference chip (cost-optimized)</span><span class="dv">Inf1/Inf2 — Inferentia, up to 70% cheaper</span></div>
+<div class="dr"><span class="di">CPU inference (sklearn, XGBoost, tabular)</span><span class="dv">Compute-optimized — c5, c6i</span></div>
+<div class="dr"><span class="di">Large embedding tables, recommendation systems</span><span class="dv">Memory-optimized — r5, r6g</span></div>
+<div class="dr"><span class="di">Dev/test, mixed general workloads</span><span class="dv">General purpose — m5, m6i</span></div>
+</div>
+<div class="sec">Deployment strategies</div>
+<div class="h hb"><b>Blue/Green</b><span>Instant full traffic switch. Easiest rollback. Full duplicate environment required.</span></div>
+<div class="h hb"><b>Canary</b><span>Small % of traffic first (e.g. 5%). Gradually shift all. Safe rollout. Catch issues early.</span></div>
+<div class="h hb"><b>A/B testing</b><span>Persistent traffic split between model variants. Compare accuracy, revenue impact over time.</span></div>
+<div class="h hb"><b>Shadow</b><span>Mirror live traffic to new model, zero user impact. Silent comparison before switching.</span></div>
+</div>
+
+<!-- BEDROCK & GENAI -->
+<div id="pbe" class="panel">
+<div class="sec">Inference parameters</div>
+<div class="h hb"><b>Temperature</b><span>Lower = deterministic/consistent. Higher = random/creative. For standardized investment advice → lower temperature.</span></div>
+<div class="h hb"><b>Top K</b><span>Limits candidates to top K tokens. Lower K = more focused output. Higher K = more diverse. All three go same direction.</span></div>
+<div class="h hb"><b>Top P (nucleus sampling)</b><span>Cumulative probability cutoff. Lower P = focused. Higher P = diverse. Decrease ALL THREE for max consistency.</span></div>
+<div class="h hr"><b>Mixed parameter directions</b><span>Increase Temp but decrease Top K = they partially cancel out. All three must move same direction for clear effect.</span></div>
+<div class="sec">Amazon Titan model family</div>
+<div class="dt">
+<div class="dr"><span class="di">Generate images from text descriptions</span><span class="dv">Titan Image Generator</span></div>
+<div class="dr"><span class="di">Convert text to vector embeddings (RAG)</span><span class="dv">Titan Embeddings G1 — Text</span></div>
+<div class="dr"><span class="di">NLP tasks: summarize, classify, translate text</span><span class="dv">Titan Text Lite</span></div>
+<div class="dr"><span class="di">Text + image combined → search vectors</span><span class="dv">Titan Multimodal Embeddings</span></div>
+</div>
+<div class="sec">Bedrock fine-tuning workflow</div>
+<div class="h hg"><b>Full workflow (no dataset yet)</b><span>1) Prepare JSONL dataset → 2) Fine-tune job (adjust hyperparameters) → 3) Review metrics → 4) Buy Provisioned Throughput → 5) Invoke model.</span></div>
+<div class="h ha"><b>Dataset already exists (exam shortcut)</b><span>SKIP step 1. Start at: Fine-tune job → Review metrics → Buy Provisioned Throughput. The exam will say "already has JSONL."</span></div>
+<div class="h hr"><b>Provisioned Throughput = mandatory</b><span>Cannot invoke any fine-tuned Bedrock model without buying Provisioned Throughput first. Hard platform requirement.</span></div>
+<div class="sec">Bedrock use cases and RAG</div>
+<div class="h hp"><b>Bedrock excels at</b><span>Conversational chatbots, text generation, summarization, RAG, fine-tuning FMs. NOT predictive analytics, NOT image recognition (use Rekognition).</span></div>
+<div class="h hp"><b>Bedrock benefits (multi-select answer)</b><span>The TWO correct answers: 1) wide range of FMs from multiple providers. 2) private customization of FMs.</span></div>
+<div class="h ht"><b>Managed RAG</b><span>Bedrock Knowledge Bases: S3 → embed with Titan Embeddings G1 → vector store → retrieve + generate. Fully managed.</span></div>
+<div class="h ht"><b>Multilingual audio/video pipeline</b><span>Multilingual audio/video → Transcribe (speech→text) → Translate (→English) → Bedrock LLM (summarize). Rekognition ≠ audio.</span></div>
+<div class="h ht"><b>CreateModelInvocationJob API</b><span>Batch LLM processing from S3. Managed, minimal setup. Preferred over Lambda + Step Functions for pure batch LLM jobs.</span></div>
+<div class="h hr"><b>Bedrock data sources (RAG)</b><span>Bedrock Knowledge Bases supports S3 ONLY as data source. RDS is NOT supported. DynamoDB alone is NOT supported.</span></div>
+</div>
+
+<!-- SECURITY -->
+<div id="pse" class="panel">
+<div class="sec">PII detection — two very different services</div>
+<div class="h hr"><b>Amazon Macie</b><span>PII in S3 STORED OBJECTS. Bucket scanning. S3 only. Run before training to gate pipeline. NOT for live communications.</span></div>
+<div class="h hg"><b>Amazon Comprehend</b><span>PII in LIVE TEXT — emails, chat logs, call transcripts. Detect + anonymize in real-time NLP. Also: sentiment, entities, key phrases.</span></div>
+<div class="h hr"><b>Amazon Textract</b><span>OCR: extracts text FROM scanned documents and PDFs. NOT PII anonymization. NOT analysis. Not a security service.</span></div>
+<div class="h hr"><b>Glue Sensitive Data Detection</b><span>ETL batch pipelines only. NOT real-time communications. NOT for email/chat PII processing.</span></div>
+<div class="sec">Encryption</div>
+<div class="h hb"><b>KMS</b><span>Encryption AT REST — S3 artifacts, EBS volumes, EFS, SageMaker training data, model artifacts.</span></div>
+<div class="h hb"><b>Inter-container TLS</b><span>Encryption IN TRANSIT between distributed training nodes. NOT KMS (that's at rest). NOT Secrets Manager (that's credentials).</span></div>
+<div class="h hr"><b>SSE-KMS migration AccessDenied fix</b><span>After SSE-S3 → SSE-KMS: add kms:Encrypt + kms:Decrypt to EXECUTION ROLE. NOT the IAM user who launched the job.</span></div>
+<div class="sec">Audit and logging</div>
+<div class="h ha"><b>AWS CloudTrail</b><span>WHO did WHAT WHEN. Every API call, compliance audit. NOT for log analysis. NOT for ML pattern detection in logs.</span></div>
+<div class="h ha"><b>CloudWatch Logs Insights</b><span>Query logs + ML pattern detection using 'pattern' command. NOT CloudTrail (API audit). NOT Config (resource configs).</span></div>
+<div class="h ha"><b>AWS Config</b><span>Resource configuration state audit. NOT API activity logs. NOT log analysis. NOT drift monitoring.</span></div>
+<div class="sec">Network and IAM access control</div>
+<div class="h hp"><b>VPC Gateway endpoint</b><span>Same-region S3 and DynamoDB ONLY. FREE. Does NOT support cross-region traffic.</span></div>
+<div class="h hp"><b>VPC Interface endpoint (PrivateLink)</b><span>Supports cross-region. SageMaker in us-west-2 accessing S3 in us-east-1 = use interface endpoint.</span></div>
+<div class="h hp"><b>Cross-account S3 access</b><span>Create IAM role in OWNER's account → grant sts:AssumeRole to the other account. Bucket policy in requester's account = impossible.</span></div>
+<div class="h hp"><b>403 on specific S3 file</b><span>s3:GetObject missing for that specific object. Bucket connection works = bucket-level OK. Object-level permission is missing.</span></div>
+<div class="h hp"><b>Comprehend model cross-account copy</b><span>Use ImportModel API + resource-based IAM policy in source (DEV) account. NOT S3 export, NOT CloudFormation, NOT Direct Connect.</span></div>
+</div>
+
+<!-- COST & INSTANCES -->
+<div id="pco" class="panel">
+<div class="sec">Instance purchasing — critical distinctions</div>
+<div class="dt">
+<div class="dr"><span class="di">Cheapest, interruptible, training with checkpointing</span><span class="dv">Spot Instances — 70-90% off, 2-min warning</span></div>
+<div class="dr"><span class="di">Strict schedule, no interruption, long-term SageMaker</span><span class="dv">SageMaker Savings Plans — up to 64% off</span></div>
+<div class="dr"><span class="di">Long-term always-on EC2 commitment</span><span class="dv">Reserved Instances — NOT for SageMaker training</span></div>
+<div class="dr"><span class="di">Unpredictable, dev/test, no commitment</span><span class="dv">On-Demand — most expensive, most flexible</span></div>
+<div class="dr"><span class="di">BYOL or compliance isolation</span><span class="dv">Dedicated Host</span></div>
+</div>
+<div class="h hr"><b>CRITICAL: Reserved Instances + SageMaker training</b><span>NOT supported. This is the exam's most repeated cost distractor. Always choose Savings Plans for SageMaker long-term cost savings.</span></div>
+<div class="h hr"><b>Spot + strict schedule = wrong combination</b><span>Spot Instances are interruptible. Cannot guarantee on-time completion. Strict deadline = Savings Plans, not Spot.</span></div>
+<div class="sec">Cost optimization tools</div>
+<div class="h hb"><b>Compute Optimizer</b><span>Rightsizing recommendations for EC2 + Lambda + ECS/Fargate + EBS. Multi-service. NOT just SageMaker endpoints.</span></div>
+<div class="h hb"><b>Inference Recommender</b><span>SageMaker endpoints ONLY. Best instance type for your specific model. NOT general compute rightsizing.</span></div>
+<div class="h hb"><b>AWS Trusted Advisor</b><span>General AWS best practices and checks. NOT specialized for ML workloads, containers, or Fargate.</span></div>
+<div class="h hb"><b>AWS Budgets</b><span>Alerts when spending exceeds threshold ONLY. Cannot control execution, pause jobs, or manage training schedules automatically.</span></div>
+<div class="sec">Cost tagging — 3-step rule</div>
+<div class="h hg"><b>Correct order</b><span>Step 1: CREATE user-defined tags. Step 2: ATTACH to resources. Step 3: ACTIVATE in Billing and Cost Management console. Skip step 3 = invisible in Cost Explorer.</span></div>
+<div class="h hr"><b>aws:createdBy tag</b><span>Shows who created a resource. NOT for project-based cost tracking. Cannot be customized to carry project IDs.</span></div>
+<div class="h hr"><b>Cost Allocation Reports</b><span>Do NOT automatically generate tags. They read tags you've already created and activated. "Auto-generate" = wrong answer every time.</span></div>
+</div>
+
+<!-- CI/CD & PIPELINES -->
+<div id="pci" class="panel">
+<div class="sec">AWS CI/CD services — one-liner each</div>
+<div class="h hb"><b>CodePipeline</b><span>ORCHESTRATE all stages end-to-end. Automate build → test → deploy workflow. The master conductor of CI/CD.</span></div>
+<div class="h hg"><b>CodeBuild</b><span>BUILD + TEST code. Compile source, run test suites, produce build artifacts. Scales concurrent builds automatically.</span></div>
+<div class="h ha"><b>CodeDeploy</b><span>DEPLOY to targets (EC2, Lambda, on-premises). Minimize downtime during deployments. Supports blue/green and rolling.</span></div>
+<div class="h hp"><b>CodeArtifact</b><span>STORE + manage software packages (Maven, npm, PyPI). After CodeBuild produces packages, CodeArtifact stores and versions them.</span></div>
+<div class="sec">ML orchestration selection</div>
+<div class="dt">
+<div class="dr"><span class="di">Full ML lifecycle, IaC JSON schema, ML-native</span><span class="dv">SageMaker Pipelines — default for ML automation</span></div>
+<div class="dr"><span class="di">Trigger pipeline when new S3 data arrives</span><span class="dv">EventBridge → SageMaker Pipelines</span></div>
+<div class="dr"><span class="di">General serverless orchestration, not ML-specific</span><span class="dv">AWS Step Functions</span></div>
+<div class="dr"><span class="di">General DAG, not ML-native, not serverless</span><span class="dv">Amazon MWAA / Apache Airflow</span></div>
+<div class="dr"><span class="di">ETL and data integration only</span><span class="dv">AWS Glue — NOT full ML lifecycle</span></div>
+<div class="dr"><span class="di">NLP preprocessing + model training automation</span><span class="dv">SageMaker Data Wrangler + SageMaker Pipelines</span></div>
+</div>
+<div class="sec">Ordered workflow templates</div>
+<div class="h ht"><b>JSON in S3 → ML ready (sensor data)</b><span>Step 1: Glue crawlers (detect schemas). Step 2: Data Wrangler (clean + transform). Step 3: Save processed data to S3.</span></div>
+<div class="h ht"><b>Build RAG chatbot with Bedrock</b><span>Step 1: Set up S3 bucket. Step 2: Configure Bedrock Knowledge Base linked to S3. Step 3: Load data into Knowledge Base.</span></div>
+<div class="h hr"><b>Bedrock KB data sources</b><span>Supports S3 ONLY. RDS is NOT a valid Bedrock Knowledge Base data source. Neither is standalone DynamoDB.</span></div>
+</div>
+
+<!-- EXAM TRAPS -->
+<div id="ptr" class="panel">
+<div class="sec">Top 20 exam traps — compiled from all three practice sets</div>
+<div class="h hr"><b>TRAP 1 — Reserved Instances + SageMaker training</b><span>NOT supported. Exam offers this every single time as a cost distractor. Always use Savings Plans for long-term SageMaker cost savings.</span></div>
+<div class="h hr"><b>TRAP 2 — DataBrew + mixed file types in one folder</b><span>Fails. You cannot mix CSV + JSON + Parquet in one folder. Correct = separate folders first, then process each folder, output as Parquet.</span></div>
+<div class="h hr"><b>TRAP 3 — Rekognition + audio or speech</b><span>Rekognition = visual content analysis ONLY (images, video frames, faces, objects). For spoken speech in video → Transcribe. Rekognition cannot hear.</span></div>
+<div class="h hr"><b>TRAP 4 — ModelExplainabilityMonitor vs ModelBiasMonitor</b><span>Feature importance RANK shifted (age was #1, now driving history #1) = Explainability Monitor (SHAP drift). Bias across demographic groups = Bias Monitor.</span></div>
+<div class="h hr"><b>TRAP 5 — SSE-KMS AccessDenied — fix the execution role, not the user</b><span>Training jobs use execution role credentials. Add kms:Encrypt + kms:Decrypt to the EXECUTION ROLE. The IAM user's permissions are irrelevant.</span></div>
+<div class="h hr"><b>TRAP 6 — Gateway endpoint + cross-region</b><span>Gateway VPC endpoint = same-region S3/DynamoDB ONLY and it's free. Cross-region = Interface endpoint (PrivateLink). Never mix these up.</span></div>
+<div class="h hr"><b>TRAP 7 — Bedrock fine-tuning dataset already exists</b><span>If question says "already has JSONL dataset" or "already has labeled data" — SKIP the Prepare step. Start directly at fine-tuning job.</span></div>
+<div class="h hr"><b>TRAP 8 — Provisioned Throughput = mandatory last step</b><span>"Use the customized model in Bedrock tasks" sounds like the final step. Wrong. Buy Provisioned Throughput first, THEN use the model.</span></div>
+<div class="h hr"><b>TRAP 9 — Cut-off is NOT a metric</b><span>A threshold/cut-off is a decision boundary, NOT an evaluation metric. Never select it when asked for performance metrics.</span></div>
+<div class="h hr"><b>TRAP 10 — Pipe Mode + NLP tokenizers</b><span>Pipe Mode cannot seek within files — sequential only. This breaks NLP tokenizers needing random access. Use Fast File Mode for BERT/NLP.</span></div>
+<div class="h hr"><b>TRAP 11 — True Positive Rate ≠ metric for minimizing false positives</b><span>Fraud question asks to minimize false positives → use FPR + F1. NOT True Positive Rate (TPR = recall = minimizing false negatives).</span></div>
+<div class="h hr"><b>TRAP 12 — AWS Budgets cannot control execution</b><span>Budgets only sends alerts when spending exceeds a threshold. Cannot pause training jobs, adjust schedules, or control SageMaker execution.</span></div>
+<div class="h hr"><b>TRAP 13 — RMSE for classification problems</b><span>RMSE is REGRESSION ONLY. Never use for Passed/Failed, spam/not-spam, fraud/not-fraud, or any discrete label prediction.</span></div>
+<div class="h hr"><b>TRAP 14 — Adding max_depth to fix overfitting</b><span>Minimizing max_depth reduces tree complexity and overfitting in XGBoost. ADDING max_depth makes overfitting worse. Never increase to improve generalization.</span></div>
+<div class="h hr"><b>TRAP 15 — k-NN worker sample split</b><span>sample_size=200, 2 workers → each worker gets 100 points (200 ÷ 2). NOT 200 points each. NOT the total dataset size.</span></div>
+<div class="h hr"><b>TRAP 16 — Model Monitor baseline after model update</b><span>Model updated → old baseline is now stale → generate a NEW baseline from updated dataset → reconfigure Model Monitor to use new baseline.</span></div>
+<div class="h hr"><b>TRAP 17 — Cost Allocation Reports auto-generate tags</b><span>FALSE. Cost Allocation Reports do not auto-generate tags. They only read tags you've already created and activated. "Automatically generate" = wrong.</span></div>
+<div class="h hr"><b>TRAP 18 — Comprehend ImportModel for cross-account model copy</b><span>NOT S3 export, NOT CloudFormation, NOT AWS Direct Connect. Use ImportModel API + resource-based IAM policy in source DEV account.</span></div>
+<div class="h hr"><b>TRAP 19 — Polly → Transcribe for text data</b><span>Converting text to speech (Polly) then back to text (Transcribe) is circular and wasteful. For text data → process directly with Translate and LLM.</span></div>
+<div class="h hr"><b>TRAP 20 — LDA vs BlazingText for "unknown topics"</b><span>If topics are UNKNOWN and need to be discovered automatically = LDA (unsupervised). If topics are known and predefined = BlazingText classification (supervised).</span></div>
+</div>
+
+<script>
+function sw(id,el){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.getElementById('p'+id).classList.add('on');
+  el.classList.add('on');
+}
+</script>
+</body>
+</html>
